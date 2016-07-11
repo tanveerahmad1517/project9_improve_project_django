@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <component name="dataSourceStorage">
-  <data-source name="Sqlite (Xerial) - db.sqlite3" uuid="6c813b7e-ea6e-4fc9-b983-42a133697dbf">
+  <data-source name="Sqlite (Xerial) - db.sqlite3" uuid="f5b8ef8d-8c03-4e05-8b09-8330b84dd6be">
     <database-info product="SQLite" version="3.8.11" jdbc-version="2.1" driver-name="SQLiteJDBC" driver-version="native"/>
     <case-sensitivity plain-identifiers="mixed" quoted-identifiers="mixed"/>
     <schema name="" catalog=""/>
@@ -106,9 +106,9 @@
       <column name="id" sqlType="INTEGER" precision="0" scale="-1" nullable="false" jdbcType="4"/>
       <column name="name" sqlType="VARCHAR(200)" precision="0" scale="-1" nullable="false" jdbcType="12"/>
       <column name="description" sqlType="TEXT" precision="0" scale="-1" nullable="false" jdbcType="12"/>
-      <column name="created_date" sqlType="DATETIME" precision="0" scale="-1" nullable="false" jdbcType="12"/>
       <column name="standard" sqlType="BOOL" precision="0" scale="-1" nullable="false" jdbcType="4"/>
       <column name="chef_id" sqlType="INTEGER" precision="0" scale="-1" nullable="false" jdbcType="4"/>
+      <column name="created_date" sqlType="DATE" precision="0" scale="-1" nullable="false" jdbcType="12"/>
       <primary-key columns="id"/>
       <foreign-key name="#FAKE_menu_item_1" columns="chef_id" ref-table="auth_user" ref-schema="" ref-catalog="" ref-columns="id" update-rule="3" delete-rule="3" deferrability="1"/>
       <index name="menu_item_f30d12e7" unique="true" columns="chef_id"/>
@@ -126,8 +126,8 @@
     <table name="menu_menu" schema="" catalog="" type="TABLE">
       <column name="id" sqlType="INTEGER" precision="0" scale="-1" nullable="false" jdbcType="4"/>
       <column name="created_date" sqlType="DATETIME" precision="0" scale="-1" nullable="false" jdbcType="12"/>
-      <column name="expiration_date" sqlType="DATETIME" precision="0" scale="-1" nullable="true" jdbcType="12"/>
       <column name="season" sqlType="VARCHAR(20)" precision="0" scale="-1" nullable="false" jdbcType="12"/>
+      <column name="expiration_date" sqlType="DATE" precision="0" scale="-1" nullable="true" jdbcType="12"/>
       <primary-key columns="id"/>
     </table>
     <table name="menu_menu_items" schema="" catalog="" type="TABLE">
