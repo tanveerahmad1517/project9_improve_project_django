@@ -2,12 +2,6 @@
 
 {% block content %}
     <div class="post">
-        {% if menu.expiration_date %}
-            <div class="date">
-                Expires on: {{ menu.expiration_date }}
-            </div>
-        {% endif %}
-
         {% for menu in menus %}
             <h1>
                 {% if user.is_authenticated %}
@@ -16,6 +10,11 @@
                 <a href="{% url 'menu_detail' pk=menu.pk %}">{{ menu.season }}</a>
             </h1>
             <p>{{ menu.items.all|join:", "}}</p>
+            {% if menu.expiration_date %}
+                <div class="date">
+                    Expires on: {{ menu.expiration_date }}
+                </div>
+            {% endif %}
         {% endfor %}
     </div>
 {% endblock %}
