@@ -32,35 +32,24 @@ def item_detail(request, pk):
     return render(request, 'menu/detail_item.html', {'item': item})
 
 
-def create_new_menu(request):
-    if request.method == "POST":
-        form = forms.MenuForm(request.POST)
-        if form.is_valid():
-            menu = form.save()
-            menu.items = form.cleaned_data.get('items')
-            menu.save()
-            for item in menu.items.all():
-                item.items.add(menu)
-            return redirect('menu:detail', pk=menu.pk)
-    else:
-        form = forms.MenuForm()
-    return render(request, 'menu/menu_edit.html', {'form': form})
-
-
-def edit_menu(request, pk):
-    menu = get_object_or_404(models.Menu, pk=pk)
+def menu_create_edit(request, pk=0):
+    try:
+        menu = models.Menu.objects.get(pk=pk)
+    except models.Menu.DoesNotExist:
+        menu = None
     form = forms.MenuForm(instance=menu)
-    if request.method == "POST":
+
+    if request.method == 'POST':
         form = forms.MenuForm(instance=menu, data=request.POST)
         if form.is_valid():
-
-            for item in menu.items.all():
-                item.items.remove(menu)
-
-            form.save()
+            if menu:
+                for item in menu.items.all():
+                    item.items.remove(menu)
+                form.save()
+            else:
+                menu = form.save()
             for item in menu.items.all():
                 item.items.add(menu)
             return HttpResponseRedirect(
                 reverse('menu:detail', kwargs={'pk': menu.pk}))
-
-    return render(request, 'menu/change_menu.html', {'form': form})
+    return render(request, 'menu/menu_edit.html', {'form': form})
