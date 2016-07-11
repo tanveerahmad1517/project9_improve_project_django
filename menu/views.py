@@ -41,7 +41,7 @@ def create_new_menu(request):
             menu.save()
             for item in menu.items.all():
                 item.items.add(menu)
-            return redirect('menu_detail', pk=menu.pk)
+            return redirect('menu:detail', pk=menu.pk)
     else:
         form = forms.MenuForm()
     return render(request, 'menu/menu_edit.html', {'form': form})
@@ -61,6 +61,6 @@ def edit_menu(request, pk):
             for item in menu.items.all():
                 item.items.add(menu)
             return HttpResponseRedirect(
-                reverse('menu_detail', kwargs={'pk': menu.pk}))
+                reverse('menu:detail', kwargs={'pk': menu.pk}))
 
     return render(request, 'menu/change_menu.html', {'form': form})

@@ -5,9 +5,9 @@
         {% for menu in menus %}
             <h1>
                 {% if user.is_authenticated %}
-                    <a class="btn btn-default" href="{% url 'menu_edit' pk=menu.pk %}"><span class="glyphicon glyphicon-pencil"></span></a>
+                    <a class="btn btn-default" href="{% url 'menu:edit' pk=menu.pk %}"><span class="glyphicon glyphicon-pencil"></span></a>
                 {% endif %}
-                <a href="{% url 'menu_detail' pk=menu.pk %}">{{ menu.season }}</a>
+                <a href="{% url 'menu:detail' pk=menu.pk %}">{{ menu.season }}</a>
             </h1>
             <p>{{ menu.items.all|join:", "}}</p>
             {% if menu.expiration_date %}
