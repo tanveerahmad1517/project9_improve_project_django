@@ -1,4 +1,5 @@
-from django.shortcuts import render, get_object_or_404
+from django.db.models import Q
+from django.shortcuts import render
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect, Http404
 from django.utils import timezone
@@ -8,14 +9,18 @@ from . import forms
 
 
 def menu_list(request):
+    """Shows the list of all menus with the missing expiration date or
+    expiration date in the future."""
     today = timezone.now().date()
     menus = models.Menu.objects.prefetch_related('items').filter(
-        expiration_date__gte=today).order_by('expiration_date')
+        Q(expiration_date__gte=today) | Q(expiration_date__isnull=True)
+    ).order_by('expiration_date')
     return render(request, 'menu/list_all_current_menus.html', {
         'menus': menus})
 
 
 def menu_detail(request, pk):
+    """Shows menu details if menu exists."""
     try:
         menu = models.Menu.objects.prefetch_related('items').get(pk=pk)
     except models.Menu.DoesNotExist:
@@ -24,6 +29,7 @@ def menu_detail(request, pk):
 
 
 def item_detail(request, pk):
+    """Shows item details if item exists."""
     try:
         item = models.Item.objects.select_related('chef').prefetch_related(
             'ingredients').get(pk=pk)
@@ -33,6 +39,7 @@ def item_detail(request, pk):
 
 
 def menu_create_edit(request, pk=0):
+    """View to add new or edit existing menu."""
     try:
         menu = models.Menu.objects.get(pk=pk)
     except models.Menu.DoesNotExist:
