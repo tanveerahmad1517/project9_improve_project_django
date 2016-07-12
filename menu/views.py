@@ -1,10 +1,6 @@
-from django.shortcuts import render, get_object_or_404, redirect
-from django.http import Http404
-from operator import attrgetter
-from datetime import datetime
-from django.core.exceptions import ObjectDoesNotExist
+from django.shortcuts import render, get_object_or_404
 from django.core.urlresolvers import reverse
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, Http404
 from django.utils import timezone
 
 from . import models
@@ -20,14 +16,18 @@ def menu_list(request):
 
 
 def menu_detail(request, pk):
-    menu = models.Menu.objects.get(pk=pk)
+    try:
+        menu = models.Menu.objects.prefetch_related('items').get(pk=pk)
+    except models.Menu.DoesNotExist:
+        raise Http404
     return render(request, 'menu/menu_detail.html', {'menu': menu})
 
 
 def item_detail(request, pk):
-    try: 
-        item = models.Item.objects.get(pk=pk)
-    except ObjectDoesNotExist:
+    try:
+        item = models.Item.objects.select_related('chef').prefetch_related(
+            'ingredients').get(pk=pk)
+    except models.Menu.DoesNotExist:
         raise Http404
     return render(request, 'menu/detail_item.html', {'item': item})
 
