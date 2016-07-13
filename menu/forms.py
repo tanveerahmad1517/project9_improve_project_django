@@ -24,5 +24,5 @@ class MenuForm(forms.ModelForm):
         expiration_date = self.cleaned_data['expiration_date']
         if expiration_date and expiration_date < timezone.now().date():
             raise forms.ValidationError(
-                'Expiration date must be in the future')
+                'Expiration date must be in the future.')
         return expiration_date

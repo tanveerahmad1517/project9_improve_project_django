@@ -33,7 +33,7 @@ def item_detail(request, pk):
     try:
         item = models.Item.objects.select_related('chef').prefetch_related(
             'ingredients').get(pk=pk)
-    except models.Menu.DoesNotExist:
+    except models.Item.DoesNotExist:
         raise Http404
     return render(request, 'menu/detail_item.html', {'item': item})
 
